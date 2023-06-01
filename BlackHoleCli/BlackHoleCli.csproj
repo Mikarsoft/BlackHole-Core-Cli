@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackAsTool>true</PackAsTool>
-	<ToolCommandName>bh</ToolCommandName>
+	<ToolCommandName>bhl</ToolCommandName>
 	<PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 </Project>

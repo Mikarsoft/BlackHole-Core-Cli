@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DotNetCliTool Version="1">
   <Commands>
-    <Command Name="bh" EntryPoint="BlackHoleCli.dll" Runner="dotnet" />
+    <Command Name="bhl" EntryPoint="BlackHoleCli.dll" Runner="dotnet" />
   </Commands>
 </DotNetCliTool>

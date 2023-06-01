@@ -10,10 +10,10 @@
     </packageTypes>
   </metadata>
   <files>
-    <file src="C:\Users\Archo\source\repos\BlackHoleCli\BlackHoleCli\obj\DotnetToolSettings.xml" target="tools\net6.0\any\DotnetToolSettings.xml" />
-    <file src="C:\Users\Archo\source\repos\BlackHoleCli\BlackHoleCli\bin\Debug\net6.0\publish\BlackHoleCli.dll" target="tools\net6.0\any\BlackHoleCli.dll" />
-    <file src="C:\Users\Archo\source\repos\BlackHoleCli\BlackHoleCli\bin\Debug\net6.0\publish\BlackHoleCli.deps.json" target="tools\net6.0\any\BlackHoleCli.deps.json" />
-    <file src="C:\Users\Archo\source\repos\BlackHoleCli\BlackHoleCli\bin\Debug\net6.0\publish\BlackHoleCli.runtimeconfig.json" target="tools\net6.0\any\BlackHoleCli.runtimeconfig.json" />
-    <file src="C:\Users\Archo\source\repos\BlackHoleCli\BlackHoleCli\bin\Debug\net6.0\publish\BlackHoleCli.pdb" target="tools\net6.0\any\BlackHoleCli.pdb" />
+    <file src="C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\obj\DotnetToolSettings.xml" target="tools\net6.0\any\DotnetToolSettings.xml" />
+    <file src="C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Debug\net6.0\publish\BlackHoleCli.dll" target="tools\net6.0\any\BlackHoleCli.dll" />
+    <file src="C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Debug\net6.0\publish\BlackHoleCli.deps.json" target="tools\net6.0\any\BlackHoleCli.deps.json" />
+    <file src="C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Debug\net6.0\publish\BlackHoleCli.runtimeconfig.json" target="tools\net6.0\any\BlackHoleCli.runtimeconfig.json" />
+    <file src="C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Debug\net6.0\publish\BlackHoleCli.pdb" target="tools\net6.0\any\BlackHoleCli.pdb" />
   </files>
 </package>
