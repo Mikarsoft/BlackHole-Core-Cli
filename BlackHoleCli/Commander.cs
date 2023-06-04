@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics;
+using System.IO.Pipes;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml;
+using System;
 
 namespace BlackHoleCli
 {
@@ -17,8 +19,6 @@ namespace BlackHoleCli
         public static void ScanSolution(string[] commandText)
         {
             int exitCodeNum = 0;
-            Console.WriteLine("-");
-
             if (CheckCommands(commandText))
             {
                 string currentDir = Directory.GetCurrentDirectory();
@@ -36,7 +36,9 @@ namespace BlackHoleCli
                     if (ProjectsWithBlackHole.Count == 1)
                     {
                         string workingDir = Path.Combine(currentDir, "BhDir");
-                        int buildResult = RunCommand("dotnet", $"build {ProjectsWithBlackHole[0]} /p:OutputPath={workingDir}");
+                        Console.WriteLine($"Building project {Path.GetFileName(ProjectsWithBlackHole[0]).Replace(".csproj","")}..");
+                        Console.WriteLine(" ");
+                        int buildResult = BuildCommand("dotnet", $"build {ProjectsWithBlackHole[0]} /p:OutputPath={workingDir}");
 
                         if (buildResult == 0)
                         {
@@ -50,42 +52,40 @@ namespace BlackHoleCli
 
                             if (assemblyTest)
                             {
-                                Console.WriteLine("BlackHole Assembly is correct", Console.ForegroundColor = ConsoleColor.Green);
-                                Console.WriteLine("-");
+                                Console.WriteLine("\t BlackHole Assembly is correct", Console.ForegroundColor = ConsoleColor.Green);
+                                Console.WriteLine(" ");
 
-                                CreateCommandSettings(workingDir, commandText);
+                                CreateCommandSettings(workingDir, commandText, Path.GetDirectoryName(ProjectsWithBlackHole[0]));
 
                                 Console.WriteLine("Begin running..", Console.ForegroundColor = ConsoleColor.White);
-                                Console.WriteLine("-");
+                                Console.WriteLine(" ");
 
                                 exitCodeNum = RunCommand("dotnet", $"exec {projectAssemblyPath}");
 
                                 if (exitCodeNum == 0)
                                 {
-                                    Console.WriteLine($"Exit code {exitCodeNum}. Project run finished successfully", Console.ForegroundColor = ConsoleColor.White);
-                                    Console.WriteLine("-");
+                                    Console.WriteLine($"\t Exit code {exitCodeNum}. Project run finished successfully", Console.ForegroundColor = ConsoleColor.Green);
+                                    Console.WriteLine(" ");
                                 }
                                 else
                                 {
                                     exitCodeNum = 505;
                                     Console.WriteLine($"Error {exitCodeNum}. Project contains errors. Run failed", Console.ForegroundColor = ConsoleColor.Red);
-                                    Console.WriteLine("-");
+                                    Console.WriteLine(" ");
                                 }
-
-                                Console.WriteLine("-");
                             }
                             else
                             {
                                 exitCodeNum = 401;
                                 Console.WriteLine("BlackHole Assembly is incorrect or missing", Console.ForegroundColor = ConsoleColor.Red);
-                                Console.WriteLine("-");
+                                Console.WriteLine(" ");
                             }
                         }
                         else
                         {
                             exitCodeNum = 502;
                             Console.WriteLine($"Error {exitCodeNum}. Project {ProjectsWithBlackHole[0]}, build failed", Console.ForegroundColor = ConsoleColor.Red);
-                            Console.WriteLine("-");
+                            Console.WriteLine(" ");
                         }
 
                         Console.WriteLine("");
@@ -94,7 +94,7 @@ namespace BlackHoleCli
                         {
                             int warningCode = 301;
                             Console.WriteLine($"Warning {warningCode}. Could not delete working directory", Console.ForegroundColor = ConsoleColor.Yellow);
-                            Console.WriteLine("-");
+                            Console.WriteLine(" ");
                             exitCodeNum = exitCodeNum == 0 ? warningCode : exitCodeNum;
                         }
                     }
@@ -102,27 +102,25 @@ namespace BlackHoleCli
                     {
                         exitCodeNum = 501;
                         Console.WriteLine($"Error {exitCodeNum}. Zero or More than One, Startup projects that use BlackHole.dll found in this solution", Console.ForegroundColor = ConsoleColor.Red);
-                        Console.WriteLine("-");
+                        Console.WriteLine(" ");
                     }
-
-                    Console.WriteLine("-");
 
                     if (exitCodeNum == 0)
                     {
                         Console.WriteLine($"Exit code {exitCodeNum}. Process has finished successfully", Console.ForegroundColor = ConsoleColor.White);
-                        Console.WriteLine("-");
+                        Console.WriteLine(" ");
                     }
                     else
                     {
                         Console.WriteLine($"Exit code {exitCodeNum}. Process has finished with Errors", Console.ForegroundColor = ConsoleColor.White);
-                        Console.WriteLine("-");
+                        Console.WriteLine(" ");
                     }
                 }
                 else
                 {
                     exitCodeNum = 404;
                     Console.WriteLine($"Error {exitCodeNum}. Zero or More than One, Solution files found in this directory.", Console.ForegroundColor = ConsoleColor.White);
-                    Console.WriteLine("-");
+                    Console.WriteLine(" ");
                 }
             }
             else
@@ -131,17 +129,17 @@ namespace BlackHoleCli
                 Console.WriteLine($"Error {exitCodeNum}. The Command is wrong", Console.ForegroundColor = ConsoleColor.Red);
                 Console.WriteLine("-", Console.ForegroundColor = ConsoleColor.White);
                 Console.WriteLine("BlackHole supported main commands => update , drop , parse");
-                Console.WriteLine("BlackHole main command 'update' => update , Is used to update the database according to your projects Entities and Settings");
-                Console.WriteLine("BlackHole main command 'drop'   => drop , Is used to drop all the tables and the database");
-                Console.WriteLine("BlackHole main command 'parse'  => parse , Is used to read an existing database and create Entities in your project according to the database tables");
+                Console.WriteLine("\t BlackHole main command 'update' => update , Is used to update the database according to your projects Entities and Settings");
+                Console.WriteLine("\t BlackHole main command 'drop'   => drop , Is used to drop all the tables and the database");
+                Console.WriteLine("\t BlackHole main command 'parse'  => parse , Is used to read an existing database and create Entities in your project according to the database tables");
                 Console.WriteLine("-");
-                Console.WriteLine("BlackHole argument 'force' => --force or -f , Is used to complete the process without requiring user input, selecting 'Y' in all user prompts");
-                Console.WriteLine("BlackHole argument 'save'  => --save or -s , Is used to save the database sql and migratons into an sql file at BlackHole's defautl datapath");
+                Console.WriteLine("\t BlackHole argument 'force' => --force or -f , Is used to complete the process without requiring user input, selecting 'Y' in all user prompts");
+                Console.WriteLine("\t BlackHole argument 'save'  => --save or -s , Is used to save the database sql and migratons into an sql file at BlackHole's defautl datapath");
                 Console.WriteLine("-");
-                Console.WriteLine("BlackHole Cli Command Example 1 => bhl update");
-                Console.WriteLine("BlackHole Cli Command Example 2 => bhl update -f");
-                Console.WriteLine("BlackHole Cli Command Example 3 => bhl update -s");
-                Console.WriteLine("BlackHole Cli Command Example 4 => bhl update -f -s ");
+                Console.WriteLine("\t BlackHole Cli Command Example 1 => bhl update");
+                Console.WriteLine("\t BlackHole Cli Command Example 2 => bhl update -f");
+                Console.WriteLine("\t BlackHole Cli Command Example 3 => bhl update -s");
+                Console.WriteLine("\t BlackHole Cli Command Example 4 => bhl update -f -s ");
             }
 
         }
@@ -202,7 +200,7 @@ namespace BlackHoleCli
             if (!correct)
             {
                 Console.WriteLine($"Unrecognized main command", Console.ForegroundColor = ConsoleColor.Red);
-                Console.WriteLine("-");
+                Console.WriteLine(" ");
             }
 
             return correct;
@@ -238,7 +236,7 @@ namespace BlackHoleCli
             if (!correct)
             {
                 Console.WriteLine($"Unrecognized second argument", Console.ForegroundColor = ConsoleColor.Red);
-                Console.WriteLine("-");
+                Console.WriteLine(" ");
             }
 
             return correct;
@@ -274,22 +272,21 @@ namespace BlackHoleCli
             if (!correct)
             {
                 Console.WriteLine($"Error at the third argument", Console.ForegroundColor = ConsoleColor.Red);
-                Console.WriteLine("-");
+                Console.WriteLine(" ");
             }
 
             return correct;
         }
 
-        static bool CreateCommandSettings(string WorkDirPath, string[] arguments)
+        static bool CreateCommandSettings(string WorkDirPath, string[] arguments, string? projectDirectory)
         {
             try
             {
                 Console.WriteLine("Saving command settings..", Console.ForegroundColor = ConsoleColor.White);
-                Console.WriteLine("-");
 
                 BHCommandProperties commandSettings = new BHCommandProperties
                 {
-                    ProjectPath = WorkDirPath,
+                    ProjectPath = projectDirectory,
                     CliCommand = MainCommand,
                     SettingMode = SubCommand,
                     ExtraMode = ThirdCommand
@@ -298,15 +295,15 @@ namespace BlackHoleCli
                 string jsonString = JsonSerializer.Serialize(commandSettings, _options);
                 File.WriteAllText(Path.Combine(WorkDirPath, "blackHole_Cli_command.json"), jsonString);
 
-                Console.WriteLine("Command settings have been saved.", Console.ForegroundColor = ConsoleColor.Green);
-                Console.WriteLine("-");
+                Console.WriteLine("\t Command settings have been saved.", Console.ForegroundColor = ConsoleColor.Green);
+                Console.WriteLine(" ");
 
                 return true;
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message, Console.ForegroundColor = ConsoleColor.Red);
-                Console.WriteLine("-");
+                Console.WriteLine(" ");
                 return false;
             }
         }
@@ -369,25 +366,23 @@ namespace BlackHoleCli
 
             try
             {
-                Console.WriteLine("Cleaning temporary directory", Console.ForegroundColor = ConsoleColor.White);
-                Console.WriteLine("-");
+                Console.WriteLine("Cleaning temporary directory..", Console.ForegroundColor = ConsoleColor.White);
 
                 DirectoryInfo di = new DirectoryInfo(dirPath);
                 di.Delete(true);
 
-                Console.WriteLine("Directory has been cleaned", Console.ForegroundColor = ConsoleColor.Green);
-                Console.WriteLine("-");
+                Console.WriteLine("\t Directory has been cleaned", Console.ForegroundColor = ConsoleColor.Green);
+                Console.WriteLine(" ");
 
                 success = true;
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message, Console.ForegroundColor = ConsoleColor.Yellow);
-                Console.WriteLine("-");
+                Console.WriteLine(" ");
                 success = false;
             }
 
-            Console.WriteLine("-");
             return success;
         }
 
@@ -397,8 +392,7 @@ namespace BlackHoleCli
 
             try
             {
-                Console.WriteLine("Testing BlackHole assembly and version", Console.ForegroundColor = ConsoleColor.White);
-                Console.WriteLine("-");
+                Console.WriteLine("Testing BlackHole assembly and version..", Console.ForegroundColor = ConsoleColor.White);
 
                 Assembly? projectAssembly = Assembly.Load(File.ReadAllBytes(bhAssemblyPath));
 
@@ -416,27 +410,27 @@ namespace BlackHoleCli
                         }
                         else
                         {
-                            Console.WriteLine("Possibly wrong BlackHole version. BlackHole Cli Supports versions from 6.0.1 and above", Console.ForegroundColor = ConsoleColor.Yellow);
-                            Console.WriteLine("-");
+                            Console.WriteLine("\t Possibly wrong BlackHole version. BlackHole Cli Supports versions from 6.0.1 and above", Console.ForegroundColor = ConsoleColor.Yellow);
+                            Console.WriteLine(" ");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Possibly wrong BlackHole version. BlackHole Cli Supports versions from 6.0.1 and above", Console.ForegroundColor = ConsoleColor.Yellow);
-                        Console.WriteLine("-");
+                        Console.WriteLine("\t Possibly wrong BlackHole version. BlackHole Cli Supports versions from 6.0.1 and above", Console.ForegroundColor = ConsoleColor.Yellow);
+                        Console.WriteLine(" ");
                     }
                 }
                 else
                 {
                     Console.WriteLine("BlackHole assembly was not found in the build",Console.ForegroundColor = ConsoleColor.Red);
-                    Console.WriteLine("-");
+                    Console.WriteLine(" ");
                 }
                 projectAssembly = null;
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message, Console.ForegroundColor = ConsoleColor.Red);
-                Console.WriteLine("-");
+                Console.WriteLine(" ");
                 success = false;
             }
 
@@ -531,21 +525,20 @@ namespace BlackHoleCli
             process.StartInfo.FileName = command;
             process.StartInfo.Arguments = arguments;
             process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = false;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.RedirectStandardOutput = true;
-
             process.Start();
+
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
 
             process.OutputDataReceived += new DataReceivedEventHandler((s, e) =>
             {
-                if(e.Data != null)
+                if (e.Data != null && e.Data.StartsWith("_bhLog_"))
                 {
-                    Console.WriteLine(e.Data, Console.ForegroundColor = ConsoleColor.White);
-                    Console.WriteLine("-");
+                    Console.WriteLine(e.Data.Replace("_bhLog_",""), Console.ForegroundColor = ConsoleColor.White);
                 }
             });
 
@@ -554,12 +547,77 @@ namespace BlackHoleCli
                 if (e.Data != null)
                 {
                     Console.WriteLine(e.Data, Console.ForegroundColor = ConsoleColor.Red);
-                    Console.WriteLine("-");
                 }
             });
 
             process.WaitForExit();
             return process.ExitCode;
+        }
+
+        static int BuildCommand(string command, string arguments)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = command;
+            process.StartInfo.Arguments = arguments;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = false;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
+            process.OutputDataReceived += new DataReceivedEventHandler((s, e) =>
+            {
+                if (e.Data != null && e.Data.Length < 200)
+                {
+                    Console.WriteLine(e.Data, Console.ForegroundColor = ConsoleColor.White);
+                }
+            });
+
+            process.ErrorDataReceived += new DataReceivedEventHandler((s, e) =>
+            {
+                if (e.Data != null)
+                {
+                    Console.WriteLine(e.Data, Console.ForegroundColor = ConsoleColor.Red);
+                }
+            });
+
+            process.WaitForExit();
+            return process.ExitCode;
+        }
+
+        public static void ReadlinePipe()
+        {
+            using (var pipeServer = new NamedPipeServerStream("BlackHolePipe", PipeDirection.Out))
+            {
+                pipeServer.WaitForConnection();
+
+                using (var writer = new StreamWriter(pipeServer))
+                {
+                    Console.Write("Are you sure you want to proceed? (Y/N): ");
+                    ConsoleKeyInfo key = Console.ReadKey(intercept: true);
+
+                    string result = "no";
+                    if (key.Key == ConsoleKey.Y)
+                    {
+                        // User confirmed, proceed with the action
+                        result = "yes";
+                        // ... Continue with your logic
+                    }
+                    else
+                    {
+                        // User canceled, abort the action
+                        Console.WriteLine("Action canceled!");
+                        // ... Handle cancellation logic
+                    }
+
+                    writer.WriteLine(result);
+                    writer.Flush();
+                }
+            }
         }
     }
 }
