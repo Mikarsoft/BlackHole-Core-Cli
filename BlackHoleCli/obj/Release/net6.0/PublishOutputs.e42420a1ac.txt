@@ -1,5 +1,0 @@
-C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Release\net6.0\publish\BlackHoleCli.exe
-C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Release\net6.0\publish\BlackHoleCli.dll
-C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Release\net6.0\publish\BlackHoleCli.deps.json
-C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Release\net6.0\publish\BlackHoleCli.runtimeconfig.json
-C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\bin\Release\net6.0\publish\BlackHoleCli.pdb

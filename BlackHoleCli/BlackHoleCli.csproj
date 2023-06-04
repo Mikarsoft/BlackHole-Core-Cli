@@ -7,6 +7,6 @@
     <Nullable>enable</Nullable>
 	<PackAsTool>true</PackAsTool>
 	<ToolCommandName>bhl</ToolCommandName>
-	<PackageOutputPath>./nupkg</PackageOutputPath>
+	<PackageOutputPath>../nupkg</PackageOutputPath>
   </PropertyGroup>
 </Project>

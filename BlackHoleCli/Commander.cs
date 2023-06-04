@@ -64,12 +64,11 @@ namespace BlackHoleCli
 
                                 if (exitCodeNum == 0)
                                 {
-                                    Console.WriteLine($"\t Exit code {exitCodeNum}. Project run finished successfully", Console.ForegroundColor = ConsoleColor.Green);
+                                    Console.WriteLine($"Exit code {exitCodeNum}. Project run finished successfully", Console.ForegroundColor = ConsoleColor.Green);
                                     Console.WriteLine(" ");
                                 }
                                 else
                                 {
-                                    exitCodeNum = 505;
                                     Console.WriteLine($"Error {exitCodeNum}. Project contains errors. Run failed", Console.ForegroundColor = ConsoleColor.Red);
                                     Console.WriteLine(" ");
                                 }
