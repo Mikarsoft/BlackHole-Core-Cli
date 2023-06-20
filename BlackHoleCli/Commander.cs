@@ -46,7 +46,8 @@ namespace BlackHoleCli
                             Console.WriteLine("-");
 
                             string bhAssemblyPath = Path.Combine(workingDir, "BlackHole.dll");
-                            string projectAssemblyPath = Path.Combine(workingDir, "BlackHoleTesting.dll");
+                            string fileName = Path.GetFileName(ProjectsWithBlackHole[0]).Replace(".csproj","");
+                            string projectAssemblyPath = Path.Combine(workingDir, $"{fileName}.dll");
 
                             bool assemblyTest = BlackHoleAssemblyTest(bhAssemblyPath, "add-migration");
 
