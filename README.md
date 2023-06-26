@@ -8,7 +8,7 @@ project in order for this cli to work.
 
 To run this Cli you need to type 'bhl' and then the command that you wish.
 
-It supports 3 basic commands:
+It supports 3 basic commands and 2 arguments on each one of them:
 
 First Command:
   - update  => Example: 'bhl update'
