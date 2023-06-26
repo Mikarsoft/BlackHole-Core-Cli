@@ -52,6 +52,21 @@ Third Command:
 
     This command gives the 'Database First' ability to the BlackHole Core ORM.
 
+    If the database is compatible with BlackHole's restrictions it will parse it directly without any errors.
+    
+    If there are incompatibilities then the Cli will stop the process and will generate a Parse report at the
+    selected default Datapath folder, that will describe all the changes that are required to the database, in order
+    to parse it. There are 3 levels of incompatibilities, 'Minor', 'Medium', 'Serious'.
+    You can overcome the first two levels easily.
+
+    If you want to parse the database even if it is incompatible, you can use the '--force' or '-f' argument after the parse command.
+    With this argument, the Cli will parse all the Entities that have 'Minor' or 'Medium' level incompatibilities and it will also,
+    generate a report of the parsing.
+
+    VERY IMPORTANT!!! => BlackHole updates the database automatically on the Startup of the application, if your database is incompatible DO NOT start 
+    your application after parsing with the '--force' argument. Mikarsoft and BlackHole Core ORM have no responsibility for any dataloss or damage in your
+    database
+
 BlackHole Example:
 
  -Find an Example Project here => [BlackHole Example](https://github.com/Mikarsoft/BlackHole-Example-Project)
