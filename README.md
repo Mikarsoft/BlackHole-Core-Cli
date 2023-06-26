@@ -30,6 +30,24 @@ First Command:
 
 Second Command:
   - drop  => Example: 'bhl drop'
+      Drop command reads the connection string from the BlackHole's settings and ONLY if BlackHole is in developer mode, it drops the database.
+
+      If you are not using developer mode in BlackHole Settings but you still want to drop the database, you need to use the '-f' or '--force'
+      argument after the command. Example: 'bhl drop -f'
+
+      If you also want to delete the existing Sql files that were written in a previous 'bhl update -s' command, you can use again the
+      '-s' or '--save' argument with the drop command, to delete them. Example: 'bhl drop -s'
+
+      You can use both '--force' and '--save' arguments in the same command. Example 'bhl drop -f -s'
+
+Third Command:
+  - parse  => Example: 'bhl parse'
+    Parse command reads the connection string from the BlackHole's settings and searches for an existing database in that location.
+    If the database can be found then the Cli will read the tables, the columns and the constraints of that database and it will
+    create a namespace in your project with the name 'BHEntities' where it will generate all the corresponding BlackHoleEntities based
+    on the existing database.
+
+    This command gives the 'Database First' ability to the BlackHole Core ORM.
 
 BlackHole Example:
 
