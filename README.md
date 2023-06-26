@@ -12,6 +12,7 @@ It supports 3 basic commands:
 
 First Command:
   - update  => Example: 'bhl update'
+
       Update command reads the 'BlackHoleEntities' in your project and the connection string and it generates or updates the database
       based on these.
     
@@ -30,6 +31,7 @@ First Command:
 
 Second Command:
   - drop  => Example: 'bhl drop'
+
       Drop command reads the connection string from the BlackHole's settings and ONLY if BlackHole is in developer mode, it drops the database.
 
       If you are not using developer mode in BlackHole Settings but you still want to drop the database, you need to use the '-f' or '--force'
@@ -42,6 +44,7 @@ Second Command:
 
 Third Command:
   - parse  => Example: 'bhl parse'
+
     Parse command reads the connection string from the BlackHole's settings and searches for an existing database in that location.
     If the database can be found then the Cli will read the tables, the columns and the constraints of that database and it will
     create a namespace in your project with the name 'BHEntities' where it will generate all the corresponding BlackHoleEntities based
