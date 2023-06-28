@@ -8,5 +8,56 @@
 	<PackAsTool>true</PackAsTool>
 	<ToolCommandName>bhl</ToolCommandName>
 	<PackageOutputPath>../nupkg</PackageOutputPath>
+	<PackageId>BlackHole.Core.Cli</PackageId>
+	<Version>1.0.1</Version>
+	<Authors>Michael Archolekas</Authors>
+	<Company>Mikarsoft</Company>
+	<Description>The Command Line Interface for BlackHole Core ORM. Adds capability of Database First architecture to the BlackHole
+by parsing existing databases and generating the required BlackHole Entities in your project.
+It can also update and drop the database and keep a history of the create and update commands, that it used, in sql files
+(like migration).</Description>
+	<Copyright>Copyright (c) 2023, Mikarsoft Ltd</Copyright>
+	<PackageProjectUrl>https://mikarsoft.com</PackageProjectUrl>
+	<PackageIcon>mikarsoft.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/Mikarsoft/BlackHole-Core-Cli</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageTags>dotnet6;dotnet7;ORM;MySql;Postgres;SqlServer;Oracle;Data;Provider;Autoincrement;Object;Relational;Mapping;Easy;Black;Hole;Mikarsoft</PackageTags>
+	<PackageReleaseNotes>- Install this app as a dotnet tool.
+- Type 'bhl' to call it in console, followed by one of the following commands
+- bhl update  =&gt; Updates the database based on the BlackHole Entities in your project
+- bhl drop  =&gt; drops the database only if you have set BlackHole in developer mode
+- bhl parse  =&gt; parsing an existing database and generates the required BlackHole Entities in your project
+
+Arguments:
+- force  =&gt;  '-f' or '--force' Forces a job to be done even if BlackHole is not in developer mode. Example: bhl drop -f
+- save  =&gt; '-s' or '--save'  Saves the sql commands that it used in the process. Example: bhl update -s</PackageReleaseNotes>
+	<NeutralLanguage>en</NeutralLanguage>
+	<AssemblyVersion>1.0.1</AssemblyVersion>
+	<FileVersion>1.0.1</FileVersion>
+	<PackageLicenseFile>C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\LICENSE</PackageLicenseFile>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="LICENSE" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\mikarsoft.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>
