@@ -1,7 +1,7 @@
 # BlackHole-Core-Cli
 
-A dotnet tool that is the Command Line Interface for [BlackHole-Core-ORM](https://github.com/Mikarsoft/BlackHole-Core-ORM)
-find BlackHole-Core-ORM on [Nuget-BlackHole](https://www.nuget.org/packages/BlackHole.Core.ORM)
+A dotnet tool that is the Command Line Interface for [BlackHole-Core-ORM](https://github.com/Mikarsoft/BlackHole-Core-ORM).
+Find BlackHole-Core-ORM on [Nuget-BlackHole](https://www.nuget.org/packages/BlackHole.Core.ORM)
 
 You can install this as a dotnet global tool and then run it from the command line of your solution folder, or
 from the package manager console in visual studio. You need to have the BlackHole Core ORM included in your
