@@ -35,7 +35,7 @@ Arguments:
 	<NeutralLanguage>en</NeutralLanguage>
 	<AssemblyVersion>1.0.1</AssemblyVersion>
 	<FileVersion>1.0.1</FileVersion>
-	<PackageLicenseFile>C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\LICENSE</PackageLicenseFile>
+	<PackageLicenseFile>C:\Users\Archo\source\repos\BlackHole.Core.Cli\BlackHoleCli\LICENSE.md</PackageLicenseFile>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
